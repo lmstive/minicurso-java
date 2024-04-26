@@ -13,8 +13,18 @@ public class UserController {
     @Autowired
     private IUserRepository userRepository;
 
+
+
     @PostMapping("/")
     public UserModel create(@RequestBody UserModel userModel) {
+        var user = this.userRepository.findByUserName(userModel.getUserName());
+
+
+        if (user != null) {
+            System.out.println("Usuario já existe");
+            return null;
+        }
+
         var userCreated = this.userRepository.save(userModel);
         return userCreated;
     }
